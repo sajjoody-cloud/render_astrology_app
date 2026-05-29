@@ -3683,6 +3683,18 @@ def index():
         swisseph_available=SWISSEPH_AVAILABLE,
         geonames_available=GEONAMESCACHE_AVAILABLE,
     )
+    @app.route("/debug-swisseph")
+def debug_swisseph():
+    try:
+        import swisseph as swe
+        return f"swisseph OK - version: {getattr(swe, '__version__', 'unknown')}"
+    except Exception as e:
+        return f"swisseph ERROR: {type(e).__name__}: {e}"
+
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
